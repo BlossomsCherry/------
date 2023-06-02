@@ -1,0 +1,14 @@
+:root {
+    --primary-color: #27ba9b;
+    --el-color-primary: #27ba9b !important;
+}
+
+body {
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.container {
+    width: 1240px;
+    margin: 0 auto;
+}
