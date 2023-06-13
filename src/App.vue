@@ -1,9 +1,15 @@
 <template>
   <div class="app">
-    <h2>app</h2>
+    <router-view></router-view>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import loading from './components/loading.vue'
+</script>
 
-<style lang='less' scoped></style>
+<style lang="less" scoped>
+.app {
+  height: 100vh;
+}
+</style>
