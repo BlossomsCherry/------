@@ -5,8 +5,8 @@
         <div class="title">图书管理系统</div>
       </div>
       <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" class="demo-ruleForm">
-        <el-form-item label="账号" prop="account" label-width="55px">
-          <el-input v-model="ruleForm.account" autocomplete="off" />
+        <el-form-item label="账号" prop="username" label-width="55px">
+          <el-input v-model="ruleForm.username" autocomplete="off" />
         </el-form-item>
         <el-form-item label="密码" prop="password" label-width="55px">
           <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
@@ -25,12 +25,12 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 // import Mock from 'mockjs'
 import Cookie from 'js-cookie'
-import { getMenu } from '@/services/modules/index'
+// import { getMenu } from '@/services/modules/index'
 import useLayoutStore from '@/stores/layout'
 import 'element-plus/theme-chalk/el-message.css'
 import { ElMessage } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { login, loginGitee } from '@/services/modules/account'
+import { login } from '@/services/modules/account'
 
 const layoutStore = useLayoutStore()
 const { menu } = storeToRefs(layoutStore)
@@ -38,24 +38,32 @@ const { menu } = storeToRefs(layoutStore)
 const router = useRouter()
 const ruleForm = ref({
   password: '',
-  account: ''
+  username: '',
+  giteeId: ''
 })
 
 //自定义校验规则
 const rules = {
-  account: { required: true, message: '账号不能为空', trigger: 'blur' },
+  username: { required: true, message: '账号不能为空', trigger: 'blur' },
   password: { required: true, message: '账号不能为空', trigger: 'blur' }
 }
 
 //统一校验/登录
 const ruleFormRef = ref(null)
 function loginClick() {
-  const { password, account } = ruleForm.value
+  // const { username } = ruleForm.value
   ruleFormRef.value.validate(async (volid) => {
     console.log(volid)
 
     if (volid) {
-      login(account, password)
+      Cookie.set('username', ruleForm.value.username)
+
+      //判断是否用的gitee账号登录
+      if (ruleForm.value.username.length === 8) {
+        ruleForm.value.giteeId = ruleForm.value.username
+        ruleForm.value.username = ''
+      }
+      login(ruleForm.value)
         .then((res) => {
           console.log(res)
 
@@ -78,61 +86,29 @@ function loginClick() {
           ElMessage.error('用户名或密码错误')
         })
 
-      getMenu(account, password).then(async ({ data }) => {
-        console.log(data)
+      // getMenu(account, password).then(async ({ data }) => {
+      //   console.log(data)
 
-        //判断是否登录成功
-        if (data.code === 20000 || data.code === 10000) {
-          menu.value = data.code === 20000 ? 2 : 1
-          Cookie.set('menu', menu.value)
+      //   //判断是否登录成功
+      //   if (data.code === 20000 || data.code === 10000) {
+      //     menu.value = data.code === 20000 ? 2 : 1
+      //     Cookie.set('menu', menu.value)
 
-          //跳转到首页
-          router.push('/')
-          ElMessage({ type: 'success', message: '登录成功' })
+      //     //跳转到首页
+      //     router.push('/')
+      //     ElMessage({ type: 'success', message: '登录成功' })
 
-          //存储token
-          Cookie.set('token', data.data.token)
-        } else {
-          ElMessage.error('用户名或密码错误')
-        }
-      })
+      //     //存储token
+      //     Cookie.set('token', data.data.token)
+      //   } else {
+      //     ElMessage.error('用户名或密码错误')
+      //   }
+      // })
       //随机数生成token信息
       // const token = Mock.Random.guid()
       // console.log(token)
       //token信息存入cookie用于不通页面的通信
       // Cookie.set('token', token)
-    }
-  })
-}
-
-function giteeClick() {
-  const { password, account } = ruleForm.value
-  ruleFormRef.value.validate(async (volid) => {
-    console.log(volid)
-
-    if (volid) {
-      giteeClick(account, password)
-        .then((res) => {
-          console.log(res)
-
-          if (res.data.data.manager === 2 || res.data.data.manager === 1) {
-            menu.value = res.data.data.manager === 2 ? 2 : 1
-            Cookie.set('menu', menu.value)
-
-            //跳转到首页
-            router.push('/')
-            ElMessage({ type: 'success', message: '登录成功' })
-
-            // 存储token
-            Cookie.set('token', 'asldhglajsldjflasjdf')
-          } else {
-            ElMessage.error('用户名或密码错误')
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          ElMessage.error('用户名或密码错误')
-        })
     }
   })
 }

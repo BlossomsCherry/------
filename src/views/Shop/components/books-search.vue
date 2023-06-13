@@ -62,8 +62,15 @@
         <el-table-column prop="id" label="借阅证号" width="180" />
         <el-table-column prop="bookId" label="图书ID" width="180" />
         <el-table-column prop="bookName" label="图书名称" width="180" />
-        <el-table-column prop="userName" label="用户" width="180" />
-        <el-table-column prop="status" label="状态" width="180" />
+        <el-table-column prop="username" label="用户" width="180" />
+        <el-table-column prop="status" label="状态">
+          <template #default="scope">
+            <el-button text style="color: red">
+              {{ scope.row.status }}
+            </el-button>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="status" label="状态" width="180" /> -->
         <el-table-column prop="borrowDate" label="借阅日期" width="180" />
         <el-table-column prop="returnDate" label="应还日期" />
       </el-table>
@@ -81,6 +88,7 @@ import useLayoutStore from '@/stores/layout'
 import useBookStore from '@/stores/books'
 import { storeToRefs } from 'pinia'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
 
 const layoutStore = useLayoutStore()
 const { menu } = storeToRefs(layoutStore)
@@ -150,23 +158,10 @@ async function handleDelete(index, row) {
     ElMessage.error('您没有该权限')
     return
   }
-  ElMessageBox.confirm('确定要删除吗?', '消息', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
+  ElMessage({
+    type: 'success',
+    message: '删除成功'
   })
-    .then(async () => {
-      ElMessage({
-        type: 'success',
-        message: '删除成功'
-      })
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '取消删除'
-      })
-    })
 
   await bookStore.fetchDeleteBook(row.id)
   //删除后重新渲染

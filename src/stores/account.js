@@ -5,6 +5,7 @@ const useAccountStore = defineStore('account', {
   state: () => ({
     isChange: false,
 
+    //Gitee用户信息
     accountMessage: {},
     token: ''
   }),

@@ -6,28 +6,14 @@ const httpRequest = axios.create({
 })
 
 //普通用户名登录  data:  username,password
-export function login(username, password) {
+export function login(data) {
   return httpRequest({
     url: '/login',
     method: 'POST',
-    data: {
-      username,
-      password
-    }
+    data
   })
 }
 
-//Gitee账号登录  data:   giteeId,password
-export function loginGitee(giteeId, password) {
-  return httpRequest({
-    url: '/login',
-    method: 'POST',
-    data: {
-      giteeId,
-      password
-    }
-  })
-}
 //修改密码  data:username,oldPassword,newPassword
 export function updatePassword(data) {
   return httpRequest({

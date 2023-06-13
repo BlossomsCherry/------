@@ -121,8 +121,8 @@ export function borrowMessage() {
 }
 
 /**
- *  新增借阅记录( 前端无需提供图书名和用户名 后端会根据图书id和用户id自动填充)
- * @data bookId, userId, borrowDate,status, borrowDate
+ *  新增借阅记录( 前端无需提供图书名 后端会根据图书id和用户名自动填充)
+ * @data bookId, username, borrowDate,status, borrowDate
  */
 
 export function borrowAdd(data) {
@@ -134,8 +134,8 @@ export function borrowAdd(data) {
 }
 
 /**
- *  修改借阅记录( 前端无需提供图书名和用户名 后端会根据图书id和用户id自动填充)
- * @data bookId, userId, borrowDat,status, borrowDate
+ *  修改借阅记录( 前端无需提供图书名 后端会根据图书id0和用户名自动填充)
+ * @data bookId, username, borrowDat,status, borrowDate
  */
 
 export function borrowUpdate(data) {
@@ -148,7 +148,7 @@ export function borrowUpdate(data) {
 
 /**
  *  删除借阅记录
- * @data bookId, userId, borrowDate
+ * @data bookId, username, borrowDate
  */
 
 export function borrowDelete(orderId) {

@@ -78,21 +78,24 @@ import { storeToRefs } from 'pinia'
 import { getBind } from '@/services/modules/account'
 import 'element-plus/theme-chalk/el-message.css'
 import { ElMessage } from 'element-plus'
+import Cookie from 'js-cookie'
 
 const layoutStore = useLayoutStore()
 const { menu } = storeToRefs(layoutStore)
 
 const accountStore = useAccountStore()
-const { accountMessage, token } = storeToRefs(accountStore)
+const { token } = storeToRefs(accountStore)
 const route = useRoute()
 
 console.log(route.query.code)
-const username = 'root'
+
 //获取token
 getToken(route.query.code).then(async (res) => {
   console.log(res)
   token.value = res.data.data.accessToken
 
+  const username = Cookie.get('username')
+  //当前用户绑定Gitee
   await getBind(token.value, username)
 
   //获取用户信息

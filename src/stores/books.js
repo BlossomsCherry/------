@@ -74,7 +74,7 @@ const useBookStore = defineStore('book', {
           id: item.id,
           bookId: item.bookId,
           bookName: item.bookName,
-          userName: item.userName,
+          username: item.username,
           status: item.status === 0 ? '已归还' : '未归还',
           borrowDate: item.borrowDate,
           returnDate: item.returnDate

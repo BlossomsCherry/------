@@ -13,8 +13,8 @@
           :rules="rules"
           ref="ruleFormRef"
         >
-          <el-form-item label="用户ID" prop="userId">
-            <el-input v-model="ruleForm.userId" autocomplete="off" />
+          <el-form-item label="用户名" prop="userName">
+            <el-input v-model="ruleForm.userName" autocomplete="off" />
           </el-form-item>
           <el-form-item label="图书编号" prop="bookId">
             <el-input v-model="ruleForm.bookId" autocomplete="off" />
@@ -43,7 +43,7 @@ const time = dayjs(date).format('YYYY-MM-DD')
 //归还日期
 const newTime = dayjs(time).add(3, 'month')
 const ruleForm = ref({
-  userId: '',
+  userName: '',
   bookId: '',
   borrowDate: time,
   status: 1,
@@ -52,7 +52,7 @@ const ruleForm = ref({
 
 //校验规则
 const rules = {
-  userId: [{ required: true, message: '请输入用户ID', trigger: 'blur' }],
+  userName: [{ required: true, message: '请输入用户ID', trigger: 'blur' }],
   bookId: [{ required: true, message: '请输入图书ID', trigger: 'blur' }],
   borrowDate: [{ required: true, message: '请输入日期', trigger: 'blur' }]
 }
